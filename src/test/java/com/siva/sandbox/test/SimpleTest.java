@@ -1,12 +1,19 @@
-package com.siva.sandbox;
+package com.siva.sandbox.test;
 
 import static io.restassured.RestAssured.basePath;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.when;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 
-import org.hamcrest.Matchers;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.siva.sandbox.exception.ApplicationAssertionException;
+import com.siva.sandbox.helper.AssertUtils;
+
+import io.restassured.response.Response;
 
 public class SimpleTest {
 	/**
@@ -29,19 +36,36 @@ public class SimpleTest {
 			.get(PATH_HEARTBEAT)
 		.then()
 			.statusCode(200)
-			.body("status", Matchers.equalTo("ok"));
+			.body("status", equalTo("ok"));
 		
 	}
 
 	@Test
-	public void doSomeThing() {
+	public void doSimpleTest() {
 		/**
 		 * Here we are checking the status and also the JSON value.
 		 */
 		when()
 			.get(PATH_SAMPLE)
 		.then()
-			.body("status", Matchers.equalTo("ok"))
-			.body("comments.comment", Matchers.contains("works well"));
+			.body("status", equalTo("ok"))
+			.body("comments.comment", contains("works well"));
+	}
+	
+	@Test
+	public void doJSONCompareTest(){
+		/**
+		 * Here we are comparing the actual JSON with the existing JSON.
+		 */
+		Response response = when()
+			.get(PATH_SAMPLE)
+		.then()
+			.extract().response();
+		
+		try {
+			AssertUtils.compareJSON("sample_1.json", response.asString());
+		} catch (ApplicationAssertionException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 }
