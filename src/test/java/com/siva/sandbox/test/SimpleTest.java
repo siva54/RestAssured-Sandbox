@@ -28,40 +28,29 @@ public class SimpleTest {
 	public void checkIfWebServiceIsUp() {
 		baseURI = HOST;
 		basePath = API;
-		
+
 		/**
-		 * Check if the Webhost is working through the heartbeat path. 
+		 * Check if the Webhost is working through the heartbeat path.
 		 */
-		when()
-			.get(PATH_HEARTBEAT)
-		.then()
-			.statusCode(200)
-			.body("status", equalTo("ok"));
-		
+		when().get(PATH_HEARTBEAT).then().statusCode(200).body("status", equalTo("ok"));
 	}
 
-	@Test
+	@Test(groups = { "Regression1" })
 	public void doSimpleTest() {
 		/**
 		 * Here we are checking the status and also the JSON value.
 		 */
-		when()
-			.get(PATH_SAMPLE)
-		.then()
-			.body("status", equalTo("ok"))
-			.body("comments.comment", contains("works well", "is reliable"));
+		when().get(PATH_SAMPLE).then().body("status", equalTo("ok")).body("comments.comment",
+				contains("works well", "is reliable"));
 	}
-	
-	@Test
-	public void doJSONCompareTest(){
+
+	@Test(groups = { "Regression2" })
+	public void doJSONCompareTest() {
 		/**
 		 * Here we are comparing the actual JSON with the existing JSON.
 		 */
-		Response response = when()
-			.get(PATH_SAMPLE)
-		.then()
-			.extract().response();
-		
+		Response response = when().get(PATH_SAMPLE).then().extract().response();
+
 		try {
 			AssertUtils.compareJSON("sample_1.json", response.asString());
 		} catch (ApplicationAssertionException e) {
