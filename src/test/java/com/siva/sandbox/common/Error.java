@@ -1,7 +1,12 @@
 package com.siva.sandbox.common;
 
 public enum Error {
-	E10000("Incorrect path or file missing"), E10001("Incorrect json file"), E20000("Sample error");
+
+	// @formatter:off
+	E10000("Incorrect path or file missing"), 
+	E10001("Incorrect json file"), 
+	E20000("Sample error");
+	// @formatter:on
 
 	public String description;
 
@@ -23,5 +28,4 @@ public enum Error {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 }

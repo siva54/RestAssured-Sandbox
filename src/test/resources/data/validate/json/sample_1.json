@@ -1,6 +1,13 @@
 {
-	"status": "ok",
-	"comments": [{
-		"comment": "works well"
-	}]
+  "status": "ok",
+  "comments": [
+    {
+      "comment": "works well",
+      "rating": 8
+    },
+    {
+      "comment": "is reliable",
+      "rating": 6
+    }
+  ]
 }

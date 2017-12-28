@@ -49,7 +49,7 @@ public class SimpleTest {
 			.get(PATH_SAMPLE)
 		.then()
 			.body("status", equalTo("ok"))
-			.body("comments.comment", contains("works well"));
+			.body("comments.comment", contains("works well", "is reliable"));
 	}
 	
 	@Test
